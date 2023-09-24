@@ -25,9 +25,6 @@ jobs:
       - name: Build Project 🏗️
         run: npm run build
 
-      - name: Export Static HTML ⚡
-        run: npm run export
-
       - name: Disable Jekyll Build 🔨
         run: touch ./out/.nojekyll
 

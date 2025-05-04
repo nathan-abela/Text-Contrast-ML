@@ -1,17 +1,10 @@
 export type SiteConfig = typeof siteConfig;
 
 export const siteConfig = {
-	name: "Next.js",
+	name: "Text Contrast ML",
 	description:
-		"Beautifully designed components built with Radix UI and Tailwind CSS.",
-	mainNav: [
-		{
-			title: "Home",
-			href: "/",
-		},
-	],
+		"A machine learning web application that uses Brain.js neural networks to automatically adjust text color based on the background color when trained enough, developed with Next.js and Shadcn-ui.",
 	links: {
-		github: "https://github.com/nathan-abela",
-		docs: "https://ui.shadcn.com",
+		github: "https://github.com/nathan-abela/Text-Contrast-ML",
 	},
 };

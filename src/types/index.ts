@@ -38,9 +38,11 @@ export const TRAINING_PRESETS: Record<
  */
 export interface SavedModel {
 	id: string;
+	name: string;
 	timestamp: number;
+	preset: TrainingPreset;
 	exampleCount: number;
-	weights: object;
+	modelJson: string;
 	trainingData: TrainingExample[];
 }
 

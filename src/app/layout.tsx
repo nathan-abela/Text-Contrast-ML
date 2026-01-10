@@ -4,9 +4,9 @@ import { Metadata } from "next";
 import { siteConfig } from "@/config/site";
 import { fontSans } from "@/lib/fonts";
 import { cn } from "@/lib/utils";
-import { SiteHeader } from "@/components/site-header";
-import { TailwindIndicator } from "@/components/tailwind-indicator";
-import { ThemeProvider } from "@/components/theme-provider";
+import { SiteHeader } from "@/components/shared/site-header";
+import { TailwindIndicator } from "@/components/shared/tailwind-indicator";
+import { ThemeProvider } from "@/components/shared/theme-provider";
 
 export const metadata: Metadata = {
 	title: {
@@ -38,7 +38,11 @@ export default function RootLayout({ children }: RootLayoutProps) {
 						fontSans.variable
 					)}
 				>
-					<ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+					<ThemeProvider
+						attribute="class"
+						defaultTheme="system"
+						enableSystem
+					>
 						<div className="relative flex min-h-screen flex-col">
 							<SiteHeader />
 							<div className="flex-1">{children}</div>

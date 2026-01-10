@@ -1,38 +1,24 @@
 "use client";
 
 import { useCallback, useState } from "react";
+import dynamic from "next/dynamic";
 import type { AppPhase, TrainingExample, TrainingPreset } from "@/types";
 
 import { IntroContainer } from "@/components/intro";
 import { TrainingContainer } from "@/components/training";
 
-/**
- * Placeholder for results phase (to be implemented in next batch)
- */
-function ResultsPlaceholder({
-	onReset,
-	exampleCount,
-}: {
-	onReset: () => void;
-	exampleCount: number;
-}) {
-	return (
-		<div className="flex min-h-[calc(100vh-4rem)] flex-col items-center justify-center gap-4 p-4">
-			<p className="text-muted-foreground">
-				Results phase coming soon...
-			</p>
-			<p className="text-sm text-muted-foreground">
-				Trained with {exampleCount} examples
-			</p>
-			<button
-				onClick={onReset}
-				className="text-sm underline hover:no-underline"
-			>
-				Start over
-			</button>
-		</div>
-	);
-}
+// Dynamic import for ResultsContainer to avoid SSR with Brain.js
+const ResultsContainer = dynamic(
+	() => import("@/components/results").then((mod) => mod.ResultsContainer),
+	{
+		ssr: false,
+		loading: () => (
+			<div className="flex min-h-[calc(100vh-4rem)] items-center justify-center">
+				<div className="h-8 w-8 animate-spin rounded-full border-2 border-muted border-t-foreground" />
+			</div>
+		),
+	}
+);
 
 /**
  * Training data state to pass between phases
@@ -44,9 +30,7 @@ interface TrainingState {
 
 export default function HomePage() {
 	const [phase, setPhase] = useState<AppPhase>("intro");
-	const [trainingState, setTrainingState] = useState<TrainingState | null>(
-		null
-	);
+	const [trainingState, setTrainingState] = useState<TrainingState | null>(null); // prettier-ignore
 
 	const handleIntroComplete = useCallback(() => {
 		setPhase("training");
@@ -66,6 +50,10 @@ export default function HomePage() {
 
 	const handleBackToIntro = useCallback(() => {
 		setPhase("intro");
+	}, []);
+
+	const handleRetrain = useCallback(() => {
+		setPhase("training");
 	}, []);
 
 	const handleReset = useCallback(() => {
@@ -92,10 +80,21 @@ export default function HomePage() {
 			);
 
 		case "results":
+			if (!trainingState) {
+				// Should not happen, but handle gracefully
+				return (
+					<IntroContainer
+						onComplete={handleIntroComplete}
+						onSkip={handleIntroSkip}
+					/>
+				);
+			}
 			return (
-				<ResultsPlaceholder
+				<ResultsContainer
+					trainingData={trainingState.data}
+					preset={trainingState.preset}
 					onReset={handleReset}
-					exampleCount={trainingState?.data.length ?? 0}
+					onRetrain={handleRetrain}
 				/>
 			);
 

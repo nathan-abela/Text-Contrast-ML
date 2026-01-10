@@ -1,37 +1,28 @@
 "use client";
 
 import { useCallback, useState } from "react";
-import type { AppPhase } from "@/types";
+import type { AppPhase, TrainingExample, TrainingPreset } from "@/types";
 
 import { IntroContainer } from "@/components/intro";
+import { TrainingContainer } from "@/components/training";
 
 /**
- * Placeholder for training phase
+ * Placeholder for results phase (to be implemented in next batch)
  */
-function TrainingPlaceholder({ onComplete }: { onComplete: () => void }) {
-	return (
-		<div className="flex min-h-[calc(100vh-4rem)] flex-col items-center justify-center gap-4 p-4">
-			<p className="text-muted-foreground">
-				Training phase coming soon...
-			</p>
-			<button
-				onClick={onComplete}
-				className="text-sm underline hover:no-underline"
-			>
-				Skip to results
-			</button>
-		</div>
-	);
-}
-
-/**
- * Placeholder for results phase
- */
-function ResultsPlaceholder({ onReset }: { onReset: () => void }) {
+function ResultsPlaceholder({
+	onReset,
+	exampleCount,
+}: {
+	onReset: () => void;
+	exampleCount: number;
+}) {
 	return (
 		<div className="flex min-h-[calc(100vh-4rem)] flex-col items-center justify-center gap-4 p-4">
 			<p className="text-muted-foreground">
 				Results phase coming soon...
+			</p>
+			<p className="text-sm text-muted-foreground">
+				Trained with {exampleCount} examples
 			</p>
 			<button
 				onClick={onReset}
@@ -43,8 +34,19 @@ function ResultsPlaceholder({ onReset }: { onReset: () => void }) {
 	);
 }
 
+/**
+ * Training data state to pass between phases
+ */
+interface TrainingState {
+	data: TrainingExample[];
+	preset: TrainingPreset;
+}
+
 export default function HomePage() {
 	const [phase, setPhase] = useState<AppPhase>("intro");
+	const [trainingState, setTrainingState] = useState<TrainingState | null>(
+		null
+	);
 
 	const handleIntroComplete = useCallback(() => {
 		setPhase("training");
@@ -54,11 +56,20 @@ export default function HomePage() {
 		setPhase("training");
 	}, []);
 
-	const handleTrainingComplete = useCallback(() => {
-		setPhase("results");
+	const handleTrainingComplete = useCallback(
+		(data: TrainingExample[], preset: TrainingPreset) => {
+			setTrainingState({ data, preset });
+			setPhase("results");
+		},
+		[]
+	);
+
+	const handleBackToIntro = useCallback(() => {
+		setPhase("intro");
 	}, []);
 
 	const handleReset = useCallback(() => {
+		setTrainingState(null);
 		setPhase("intro");
 	}, []);
 
@@ -73,10 +84,20 @@ export default function HomePage() {
 			);
 
 		case "training":
-			return <TrainingPlaceholder onComplete={handleTrainingComplete} />;
+			return (
+				<TrainingContainer
+					onComplete={handleTrainingComplete}
+					onBack={handleBackToIntro}
+				/>
+			);
 
 		case "results":
-			return <ResultsPlaceholder onReset={handleReset} />;
+			return (
+				<ResultsPlaceholder
+					onReset={handleReset}
+					exampleCount={trainingState?.data.length ?? 0}
+				/>
+			);
 
 		// Resume phase will be implemented with persistence
 		case "resume":

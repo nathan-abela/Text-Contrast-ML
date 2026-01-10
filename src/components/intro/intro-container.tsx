@@ -1,0 +1,90 @@
+"use client";
+
+import { useCallback, useState } from "react";
+
+import { Button } from "@/components/ui/button";
+
+import { INTRO_STEP_COUNT, IntroStep } from "./intro-step";
+
+interface IntroContainerProps {
+	onComplete: () => void;
+	onSkip: () => void;
+}
+
+/**
+ * Container for the intro/ onboarding flow
+ * Manages step navigation and provides skip functionality
+ */
+export function IntroContainer({ onComplete, onSkip }: IntroContainerProps) {
+	const [currentStep, setCurrentStep] = useState(0);
+
+	const isLastStep = currentStep === INTRO_STEP_COUNT - 1;
+
+	const handleNext = useCallback(() => {
+		if (isLastStep) {
+			onComplete();
+		} else {
+			setCurrentStep((prev) => prev + 1);
+		}
+	}, [isLastStep, onComplete]);
+
+	const handleBack = useCallback(() => {
+		setCurrentStep((prev) => Math.max(0, prev - 1));
+	}, []);
+
+	return (
+		<div className="flex min-h-[calc(100vh-4rem)] flex-col">
+			{/* Skip button - always visible */}
+			<div className="flex justify-end p-4">
+				<Button
+					variant="ghost"
+					size="sm"
+					onClick={onSkip}
+					className="text-muted-foreground hover:text-foreground"
+				>
+					Skip intro
+				</Button>
+			</div>
+
+			{/* Step content */}
+			<div className="flex flex-1 items-center justify-center px-4 pb-8">
+				<IntroStep step={currentStep} />
+			</div>
+
+			{/* Navigation */}
+			<div className="border-t bg-background/80 backdrop-blur-sm">
+				<div className="container flex items-center justify-between gap-4 py-4">
+					{/* Step indicators */}
+					<div className="flex gap-1.5">
+						{Array.from({ length: INTRO_STEP_COUNT }).map(
+							(_, i) => (
+								<div
+									key={i}
+									className={`h-1.5 w-8 rounded-full transition-colors ${
+										i === currentStep
+											? "bg-foreground"
+											: i < currentStep
+											? "bg-foreground/40"
+											: "bg-muted"
+									}`}
+								/>
+							)
+						)}
+					</div>
+
+					{/* Navigation buttons */}
+					<div className="flex gap-2">
+						{currentStep > 0 && (
+							<Button variant="outline" onClick={handleBack}>
+								Back
+							</Button>
+						)}
+						<Button onClick={handleNext}>
+							{isLastStep ? "Start Training" : "Next"}
+						</Button>
+					</div>
+				</div>
+			</div>
+		</div>
+	);
+}

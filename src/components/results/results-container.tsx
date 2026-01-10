@@ -17,6 +17,9 @@ interface ResultsContainerProps {
 	preset: TrainingPreset;
 	onReset: () => void;
 	onRetrain: () => void;
+	onSave?: (modelJson: string) => void;
+	isSaved?: boolean;
+	loadedModelJson?: string | null;
 }
 
 /**
@@ -28,8 +31,19 @@ export function ResultsContainer({
 	preset,
 	onReset,
 	onRetrain,
+	onSave,
+	isSaved = false,
+	loadedModelJson,
 }: ResultsContainerProps) {
-	const { isTraining, isTrained, error, train, predict } = useNeuralNetwork();
+	const {
+		isTraining,
+		isTrained,
+		error,
+		train,
+		predict,
+		exportModel,
+		importModel,
+	} = useNeuralNetwork();
 
 	// Test color state (placeholder - will be replaced with color picker)
 	const [testColor, setTestColor] = useState("#3498db");
@@ -38,10 +52,22 @@ export function ResultsContainer({
 		confidence: number;
 	} | null>(null);
 
-	// Train network on mount
+	// Train network on mount or load saved model
 	useEffect(() => {
-		train(trainingData, preset);
-	}, [train, trainingData, preset]);
+		if (loadedModelJson) {
+			// Load pre-trained model
+			try {
+				const modelData = JSON.parse(loadedModelJson);
+				importModel(modelData);
+			} catch {
+				// Fall back to training if import fails
+				train(trainingData, preset);
+			}
+		} else {
+			// Train new model
+			train(trainingData, preset);
+		}
+	}, [train, trainingData, preset, loadedModelJson, importModel]);
 
 	// Update prediction when color or network changes
 	useEffect(() => {
@@ -69,6 +95,15 @@ export function ResultsContainer({
 	const handleColorChange = useCallback((hex: string) => {
 		setTestColor(hex);
 	}, []);
+
+	// Handle save model
+	const handleSave = useCallback(() => {
+		if (!onSave || !isTrained) return;
+		const modelJson = exportModel();
+		if (modelJson) {
+			onSave(JSON.stringify(modelJson));
+		}
+	}, [onSave, isTrained, exportModel]);
 
 	// Determine text color based on prediction
 	const textColor = prediction?.result === "dark" ? "#ffffff" : "#000000";
@@ -170,9 +205,20 @@ export function ResultsContainer({
 					<Button variant="ghost" onClick={onReset}>
 						Start Over
 					</Button>
-					<Button variant="outline" onClick={onRetrain}>
-						Train Again
-					</Button>
+					<div className="flex gap-2">
+						{onSave && (
+							<Button
+								variant="outline"
+								onClick={handleSave}
+								disabled={isSaved || !isTrained}
+							>
+								{isSaved ? "Saved" : "Save Model"}
+							</Button>
+						)}
+						<Button variant="outline" onClick={onRetrain}>
+							Train Again
+						</Button>
+					</div>
 				</div>
 			</div>
 		</div>

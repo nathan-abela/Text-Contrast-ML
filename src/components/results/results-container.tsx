@@ -10,6 +10,7 @@ import {
 
 import { hexToNormalizedRgb } from "@/lib/colors";
 import { Button } from "@/components/ui/button";
+import { ColorPicker } from "@/components/color-picker";
 
 interface ResultsContainerProps {
 	trainingData: TrainingExample[];
@@ -64,13 +65,10 @@ export function ResultsContainer({
 		}
 	}, [testColor, isTrained, predict]);
 
-	// Handle color input change
-	const handleColorChange = useCallback(
-		(e: React.ChangeEvent<HTMLInputElement>) => {
-			setTestColor(e.target.value);
-		},
-		[]
-	);
+	// Handle color picker change
+	const handleColorChange = useCallback((hex: string) => {
+		setTestColor(hex);
+	}, []);
 
 	// Determine text color based on prediction
 	const textColor = prediction?.result === "dark" ? "#ffffff" : "#000000";
@@ -154,26 +152,15 @@ export function ResultsContainer({
 					</div>
 				)}
 
-				{/* Color picker placeholder - will be replaced with custom picker */}
+				{/* Custom color picker */}
 				<div className="flex flex-col items-center gap-4">
 					<label className="text-sm text-muted-foreground">
 						Test a background color
 					</label>
-					<div className="flex items-center gap-4">
-						<input
-							type="color"
-							value={testColor}
-							onChange={handleColorChange}
-							className="h-12 w-24 cursor-pointer rounded border-0 bg-transparent"
-						/>
-						<input
-							type="text"
-							value={testColor}
-							onChange={handleColorChange}
-							className="w-28 rounded-md border bg-background px-3 py-2 text-sm font-mono"
-							placeholder="#000000"
-						/>
-					</div>
+					<ColorPicker
+						value={testColor}
+						onChange={handleColorChange}
+					/>
 				</div>
 			</div>
 

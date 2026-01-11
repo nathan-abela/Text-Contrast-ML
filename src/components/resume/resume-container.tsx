@@ -67,7 +67,13 @@ export function ResumeContainer({
 			<div className="container flex-1 py-8">
 				{models.length > 0 ? (
 					<div className="mx-auto max-w-2xl space-y-6">
-						<div className="grid gap-4 sm:grid-cols-2">
+						<div
+							className={
+								models.length === 1
+									? "mx-auto max-w-sm"
+									: "grid gap-4 sm:grid-cols-2"
+							}
+						>
 							{models.map((model) => (
 								<ModelCard
 									key={model.id}

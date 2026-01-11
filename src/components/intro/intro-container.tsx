@@ -60,7 +60,7 @@ export function IntroContainer({ onComplete, onSkip }: IntroContainerProps) {
 					<div
 						role="tablist"
 						aria-label="Intro steps"
-						className="flex gap-1.5"
+						className="flex gap-2"
 					>
 						{Array.from({ length: INTRO_STEP_COUNT }).map(
 							(_, i) => (
@@ -69,12 +69,12 @@ export function IntroContainer({ onComplete, onSkip }: IntroContainerProps) {
 									role="tab"
 									aria-selected={i === currentStep}
 									aria-label={`Step ${i + 1} of ${INTRO_STEP_COUNT}`} // prettier-ignore
-									className={`h-1.5 w-8 rounded-full transition-colors ${
+									className={`h-2 w-10 rounded-full transition-colors ${
 										i === currentStep
 											? "bg-foreground"
 											: i < currentStep
-											? "bg-foreground/40"
-											: "bg-muted"
+											? "bg-foreground/50"
+											: "bg-muted-foreground/30"
 									}`}
 								/>
 							)

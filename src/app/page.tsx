@@ -41,11 +41,12 @@ export default function HomePage() {
 
 	const { hasModels, isLoading, save } = useModelHistory();
 
-	// Determine initial phase based on saved models
+	// Determine initial phase based on saved models (only on mount)
 	useEffect(() => {
-		if (isLoading) return;
+		if (isLoading || phase !== null) return;
 		setPhase(hasModels ? "resume" : "intro");
-	}, [isLoading, hasModels]);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [isLoading]);
 
 	const handleIntroComplete = useCallback(() => {
 		setPhase("training");

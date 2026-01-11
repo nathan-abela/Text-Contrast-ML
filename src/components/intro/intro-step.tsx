@@ -12,14 +12,11 @@ interface IntroStepProps {
  */
 function ContrastDemo({ good }: { good: boolean }) {
 	const bgColor = good ? "#1a1a2e" : "#1a1a2e";
-	const textColor = good ? "#ffffff" : "#2a2a3e";
+	const textColor = good ? "#ffffff" : "#3a3a4e";
 
 	return (
 		<div
-			className={cn(
-				"flex h-24 w-full items-center justify-center rounded-lg border text-lg font-medium transition-all",
-				good ? "border-foreground/20" : "border-destructive/50"
-			)}
+			className="flex h-24 w-full items-center justify-center rounded-lg border border-foreground/20 text-lg font-medium transition-all"
 			style={{ backgroundColor: bgColor, color: textColor }}
 		>
 			{good ? "Easy to read" : "Hard to read"}

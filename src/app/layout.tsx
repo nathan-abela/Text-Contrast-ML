@@ -4,6 +4,7 @@ import { Metadata } from "next";
 import { siteConfig } from "@/config/site";
 import { fontSans } from "@/lib/fonts";
 import { cn } from "@/lib/utils";
+import { SiteFooter } from "@/components/shared/site-footer";
 import { SiteHeader } from "@/components/shared/site-header";
 import { TailwindIndicator } from "@/components/shared/tailwind-indicator";
 import { ThemeProvider } from "@/components/shared/theme-provider";
@@ -45,7 +46,10 @@ export default function RootLayout({ children }: RootLayoutProps) {
 					>
 						<div className="flex h-full flex-col">
 							<SiteHeader />
-							<main className="flex-1 overflow-auto">{children}</main>
+							<main className="flex-1 overflow-auto">
+								{children}
+							</main>
+							<SiteFooter />
 						</div>
 						<TailwindIndicator />
 					</ThemeProvider>

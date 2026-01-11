@@ -35,19 +35,21 @@ export function IntroContainer({ onComplete, onSkip }: IntroContainerProps) {
 	return (
 		<div className="flex min-h-full flex-col">
 			{/* Skip button - always visible */}
-			<div className="flex justify-end p-4">
-				<Button
-					variant="ghost"
-					size="sm"
-					onClick={onSkip}
-					className="text-muted-foreground hover:text-foreground"
-				>
-					Skip intro
-				</Button>
+			<div className="border-b">
+				<div className="container flex justify-end py-5">
+					<Button
+						variant="ghost"
+						size="sm"
+						onClick={onSkip}
+						className="text-muted-foreground hover:text-foreground"
+					>
+						Skip intro
+					</Button>
+				</div>
 			</div>
 
 			{/* Step content */}
-			<div className="flex flex-1 items-center justify-center px-4 pb-8">
+			<div className="flex flex-1 items-center justify-center px-4 py-8">
 				<IntroStep step={currentStep} />
 			</div>
 

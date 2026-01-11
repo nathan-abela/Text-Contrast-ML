@@ -53,11 +53,13 @@ export function ResumeContainer({
 		<div className="flex min-h-full flex-col">
 			{/* Header */}
 			<div className="border-b">
-				<div className="container py-6">
-					<h1 className="text-2xl font-semibold">Saved Models</h1>
-					<p className="mt-1 text-muted-foreground">
-						Load a previous model or train a new one
-					</p>
+				<div className="container flex items-center justify-between py-4">
+					<div>
+						<h1 className="font-semibold">Saved Models</h1>
+						<p className="text-sm text-muted-foreground">
+							Load a previous model or train a new one
+						</p>
+					</div>
 				</div>
 			</div>
 

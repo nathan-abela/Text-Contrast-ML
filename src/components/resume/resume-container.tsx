@@ -54,9 +54,9 @@ export function ResumeContainer({
 			{/* Header */}
 			<div className="border-b">
 				<div className="container py-6">
-					<h1 className="text-2xl font-semibold">Welcome Back</h1>
+					<h1 className="text-2xl font-semibold">Saved Models</h1>
 					<p className="mt-1 text-muted-foreground">
-						Load a saved model or start fresh
+						Load a previous model or train a new one
 					</p>
 				</div>
 			</div>

@@ -14,6 +14,9 @@ interface SaturationAreaProps {
 	className?: string;
 }
 
+const STEP = 2;
+const LARGE_STEP = 10;
+
 /**
  * Saturation/Brightness picker area
  * X-axis: Saturation (0-100)
@@ -26,12 +29,9 @@ export function SaturationArea({
 	onChange,
 	className,
 }: SaturationAreaProps) {
-	// Convert HSL lightness to HSV value for positioning
-	// This is an approximation for the visual picker
 	const handleDrag = useCallback(
 		(x: number, y: number) => {
 			const newSaturation = Math.round(x * 100);
-			// Invert Y so top is bright (high lightness)
 			const newLightness = Math.round((1 - y) * 100);
 			onChange(newSaturation, newLightness);
 		},
@@ -42,6 +42,36 @@ export function SaturationArea({
 		onDrag: handleDrag,
 	});
 
+	// Keyboard navigation
+	const handleKeyDown = useCallback(
+		(e: React.KeyboardEvent) => {
+			const step = e.shiftKey ? LARGE_STEP : STEP;
+			let newSaturation = saturation;
+			let newLightness = lightness;
+
+			switch (e.key) {
+				case "ArrowLeft":
+					newSaturation = Math.max(0, saturation - step);
+					break;
+				case "ArrowRight":
+					newSaturation = Math.min(100, saturation + step);
+					break;
+				case "ArrowUp":
+					newLightness = Math.min(100, lightness + step);
+					break;
+				case "ArrowDown":
+					newLightness = Math.max(0, lightness - step);
+					break;
+				default:
+					return;
+			}
+
+			e.preventDefault();
+			onChange(newSaturation, newLightness);
+		},
+		[saturation, lightness, onChange]
+	);
+
 	// Calculate cursor position
 	const cursorX = saturation;
 	const cursorY = 100 - lightness;
@@ -49,10 +79,15 @@ export function SaturationArea({
 	return (
 		<div
 			ref={containerRef}
+			role="application"
+			aria-label={`Color saturation and lightness picker. Saturation: ${saturation}%, Lightness: ${lightness}%`}
+			tabIndex={0}
 			onMouseDown={handleMouseDown}
 			onTouchStart={handleTouchStart}
+			onKeyDown={handleKeyDown}
 			className={cn(
 				"relative h-48 w-full cursor-crosshair overflow-hidden rounded-lg",
+				"focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
 				className
 			)}
 			style={{

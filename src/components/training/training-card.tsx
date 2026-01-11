@@ -25,6 +25,7 @@ export function TrainingCard({
 		<button
 			type="button"
 			onClick={onClick}
+			aria-label={`Select ${textColor} text as more readable on this background`}
 			className={cn(
 				"group relative flex min-h-[140px] flex-1 cursor-pointer items-center justify-center rounded-xl border-2 border-transparent p-6 text-lg font-medium transition-all",
 				"hover:border-foreground/30 hover:shadow-lg",
@@ -37,12 +38,15 @@ export function TrainingCard({
 				color: textColorValue,
 			}}
 		>
-			<span className="select-none">Which text is easier to read?</span>
+			<span className="select-none" aria-hidden="true">
+				Which text is easier to read?
+			</span>
 			<span
 				className={cn(
 					"absolute bottom-3 left-1/2 -translate-x-1/2 text-xs opacity-60 transition-opacity",
 					"group-hover:opacity-100"
 				)}
+				aria-hidden="true"
 			>
 				{textColor === "black" ? "Black text" : "White text"}
 			</span>

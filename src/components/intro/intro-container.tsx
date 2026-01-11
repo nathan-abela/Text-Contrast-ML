@@ -55,11 +55,18 @@ export function IntroContainer({ onComplete, onSkip }: IntroContainerProps) {
 			<div className="border-t bg-background/80 backdrop-blur-sm">
 				<div className="container flex items-center justify-between gap-4 py-4">
 					{/* Step indicators */}
-					<div className="flex gap-1.5">
+					<div
+						role="tablist"
+						aria-label="Intro steps"
+						className="flex gap-1.5"
+					>
 						{Array.from({ length: INTRO_STEP_COUNT }).map(
 							(_, i) => (
 								<div
 									key={i}
+									role="tab"
+									aria-selected={i === currentStep}
+									aria-label={`Step ${i + 1} of ${INTRO_STEP_COUNT}`} // prettier-ignore
 									className={`h-1.5 w-8 rounded-full transition-colors ${
 										i === currentStep
 											? "bg-foreground"

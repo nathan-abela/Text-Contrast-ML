@@ -139,13 +139,22 @@ export function ColorInputs({
 	return (
 		<div className={cn("space-y-3", className)}>
 			{/* Mode switcher */}
-			<div className="flex gap-1">
+			<div
+				className="flex gap-1"
+				role="tablist"
+				aria-label="Color input format"
+			>
 				{modes.map((m) => (
 					<button
 						key={m.key}
+						type="button"
+						role="tab"
+						aria-selected={mode === m.key}
+						aria-controls={`color-input-${m.key}`}
 						onClick={() => setMode(m.key)}
 						className={cn(
 							"flex-1 rounded-md px-2 py-1 text-xs transition-colors",
+							"focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
 							mode === m.key
 								? "bg-foreground text-background"
 								: "bg-muted hover:bg-muted/80"
@@ -158,9 +167,19 @@ export function ColorInputs({
 
 			{/* Inputs based on mode */}
 			{mode === "hex" && (
-				<div className="flex flex-col gap-1">
-					<label className="text-xs text-muted-foreground">Hex</label>
+				<div
+					id="color-input-hex"
+					role="tabpanel"
+					className="flex flex-col gap-1"
+				>
+					<label
+						htmlFor="hex-input"
+						className="text-xs text-muted-foreground"
+					>
+						Hex
+					</label>
 					<input
+						id="hex-input"
 						type="text"
 						value={localHex}
 						onChange={handleHexChange}
@@ -173,7 +192,11 @@ export function ColorInputs({
 			)}
 
 			{mode === "rgb" && (
-				<div className="grid grid-cols-3 gap-2">
+				<div
+					id="color-input-rgb"
+					role="tabpanel"
+					className="grid grid-cols-3 gap-2"
+				>
 					<NumberInput
 						value={rgb.r}
 						onChange={(r) => onRgbChange({ ...rgb, r })}
@@ -199,7 +222,11 @@ export function ColorInputs({
 			)}
 
 			{mode === "hsl" && (
-				<div className="grid grid-cols-3 gap-2">
+				<div
+					id="color-input-hsl"
+					role="tabpanel"
+					className="grid grid-cols-3 gap-2"
+				>
 					<NumberInput
 						value={hsl.h}
 						onChange={(h) => onHslChange({ ...hsl, h })}

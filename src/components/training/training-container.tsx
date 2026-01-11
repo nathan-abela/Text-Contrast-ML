@@ -82,13 +82,20 @@ export function TrainingContainer({
 		<div className="flex min-h-[calc(100vh-4rem)] flex-col">
 			{/* Header with progress */}
 			<div className="border-b">
-				<div className="container flex items-center justify-between py-4">
+				<div className="container flex flex-col gap-3 py-4 sm:flex-row sm:items-center sm:justify-between">
 					<div className="space-y-1">
 						<p className="text-sm text-muted-foreground">
 							Example {currentIndex + 1} of {colors.length}
 						</p>
 						{/* Progress bar */}
-						<div className="h-1.5 w-32 overflow-hidden rounded-full bg-muted">
+						<div
+							role="progressbar"
+							aria-valuenow={progress}
+							aria-valuemin={0}
+							aria-valuemax={100}
+							aria-label="Training progress"
+							className="h-1.5 w-32 overflow-hidden rounded-full bg-muted"
+						>
 							<div
 								className="h-full bg-foreground transition-all duration-300"
 								style={{ width: `${progress}%` }}
@@ -101,7 +108,11 @@ export function TrainingContainer({
 						<span className="text-xs text-muted-foreground">
 							Training:
 						</span>
-						<div className="flex gap-1">
+						<div
+							role="radiogroup"
+							aria-label="Training intensity"
+							className="flex gap-1"
+						>
 							{(
 								Object.keys(
 									TRAINING_PRESETS
@@ -109,8 +120,11 @@ export function TrainingContainer({
 							).map((preset) => (
 								<button
 									key={preset}
+									type="button"
+									role="radio"
+									aria-checked={selectedPreset === preset}
 									onClick={() => setSelectedPreset(preset)}
-									className={`rounded-md px-2 py-1 text-xs transition-colors ${
+									className={`rounded-md px-2 py-1 text-xs transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring ${
 										selectedPreset === preset
 											? "bg-foreground text-background"
 											: "bg-muted hover:bg-muted/80"
@@ -155,9 +169,16 @@ export function TrainingContainer({
 
 			{/* Warning modal */}
 			{showWarning && (
-				<div className="fixed inset-0 z-50 flex items-center justify-center bg-background/80 backdrop-blur-sm">
+				<div
+					role="dialog"
+					aria-modal="true"
+					aria-labelledby="warning-title"
+					className="fixed inset-0 z-50 flex items-center justify-center bg-background/80 backdrop-blur-sm"
+				>
 					<div className="mx-4 max-w-sm rounded-lg border bg-background p-6 shadow-lg">
-						<h3 className="font-semibold">Low training data</h3>
+						<h3 id="warning-title" className="font-semibold">
+							Low training data
+						</h3>
 						<p className="mt-2 text-sm text-muted-foreground">
 							You&apos;ve only provided {exampleCount} example
 							{exampleCount !== 1 ? "s" : ""}. For better

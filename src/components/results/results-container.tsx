@@ -178,14 +178,23 @@ export function ResultsContainer({
 
 				{/* Confidence display */}
 				{prediction && (
-					<div className="text-center">
+					<div className="flex flex-col items-center gap-2">
 						<p className="text-lg">
 							{prediction.result === "dark" ? "White" : "Black"}{" "}
 							text recommended
 						</p>
-						<p className="text-sm text-muted-foreground">
-							{prediction.confidence}% confident
-						</p>
+						<div className="flex items-center gap-3">
+							<div className="h-1.5 w-24 overflow-hidden rounded-full bg-muted">
+								{/* prettier-ignore */}
+								<div
+									className="h-full rounded-full bg-foreground transition-all duration-300"
+									style={{width: `${prediction.confidence}%`}}
+								/>
+							</div>
+							<span className="text-sm text-muted-foreground">
+								{prediction.confidence}% confidence
+							</span>
+						</div>
 					</div>
 				)}
 

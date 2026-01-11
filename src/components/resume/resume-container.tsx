@@ -1,7 +1,8 @@
 "use client";
 
 import { useCallback } from "react";
-import { useModelHistory } from "@/hooks";
+// Import directly to avoid barrel export pulling in brain.js
+import { useModelHistory } from "@/hooks/use-model-history";
 import type { SavedModel, TrainingExample, TrainingPreset } from "@/types";
 
 import { Button } from "@/components/ui/button";

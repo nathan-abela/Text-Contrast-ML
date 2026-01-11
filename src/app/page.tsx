@@ -1,10 +1,13 @@
 "use client";
 
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import dynamic from "next/dynamic";
+// Import directly to avoid barrel export pulling in brain.js
+import { useModelHistory } from "@/hooks/use-model-history";
 import type { AppPhase, TrainingExample, TrainingPreset } from "@/types";
 
 import { IntroContainer } from "@/components/intro";
+import { ResumeContainer } from "@/components/resume";
 import { TrainingContainer } from "@/components/training";
 
 // Dynamic import for ResultsContainer to avoid SSR with Brain.js
@@ -29,8 +32,20 @@ interface TrainingState {
 }
 
 export default function HomePage() {
-	const [phase, setPhase] = useState<AppPhase>("intro");
-	const [trainingState, setTrainingState] = useState<TrainingState | null>(null); // prettier-ignore
+	const [phase, setPhase] = useState<AppPhase | null>(null);
+	const [trainingState, setTrainingState] = useState<TrainingState | null>(
+		null
+	);
+	const [isModelSaved, setIsModelSaved] = useState(false);
+	const [loadedModelJson, setLoadedModelJson] = useState<string | null>(null);
+
+	const { hasModels, isLoading, save } = useModelHistory();
+
+	// Determine initial phase based on saved models
+	useEffect(() => {
+		if (isLoading) return;
+		setPhase(hasModels ? "resume" : "intro");
+	}, [isLoading, hasModels]);
 
 	const handleIntroComplete = useCallback(() => {
 		setPhase("training");
@@ -43,6 +58,8 @@ export default function HomePage() {
 	const handleTrainingComplete = useCallback(
 		(data: TrainingExample[], preset: TrainingPreset) => {
 			setTrainingState({ data, preset });
+			setLoadedModelJson(null);
+			setIsModelSaved(false);
 			setPhase("results");
 		},
 		[]
@@ -53,16 +70,64 @@ export default function HomePage() {
 	}, []);
 
 	const handleRetrain = useCallback(() => {
+		setIsModelSaved(false);
+		setLoadedModelJson(null);
 		setPhase("training");
 	}, []);
 
 	const handleReset = useCallback(() => {
 		setTrainingState(null);
+		setIsModelSaved(false);
+		setLoadedModelJson(null);
 		setPhase("intro");
 	}, []);
 
+	const handleSaveModel = useCallback(
+		(modelJson: string) => {
+			if (!trainingState) return;
+			save(modelJson, trainingState.data, trainingState.preset);
+			setIsModelSaved(true);
+		},
+		[trainingState, save]
+	);
+
+	const handleLoadModel = useCallback(
+		(
+			modelJson: string,
+			trainingData: TrainingExample[],
+			preset: TrainingPreset
+		) => {
+			setTrainingState({ data: trainingData, preset });
+			setLoadedModelJson(modelJson);
+			setIsModelSaved(true);
+			setPhase("results");
+		},
+		[]
+	);
+
+	const handleStartNew = useCallback(() => {
+		setPhase("intro");
+	}, []);
+
+	// Loading state
+	if (phase === null) {
+		return (
+			<div className="flex min-h-[calc(100vh-4rem)] items-center justify-center">
+				<div className="h-8 w-8 animate-spin rounded-full border-2 border-muted border-t-foreground" />
+			</div>
+		);
+	}
+
 	// Render based on current phase
 	switch (phase) {
+		case "resume":
+			return (
+				<ResumeContainer
+					onLoadModel={handleLoadModel}
+					onStartNew={handleStartNew}
+				/>
+			);
+
 		case "intro":
 			return (
 				<IntroContainer
@@ -81,7 +146,6 @@ export default function HomePage() {
 
 		case "results":
 			if (!trainingState) {
-				// Should not happen, but handle gracefully
 				return (
 					<IntroContainer
 						onComplete={handleIntroComplete}
@@ -95,11 +159,12 @@ export default function HomePage() {
 					preset={trainingState.preset}
 					onReset={handleReset}
 					onRetrain={handleRetrain}
+					onSave={handleSaveModel}
+					isSaved={isModelSaved}
+					loadedModelJson={loadedModelJson}
 				/>
 			);
 
-		// Resume phase will be implemented with persistence
-		case "resume":
 		default:
 			return (
 				<IntroContainer

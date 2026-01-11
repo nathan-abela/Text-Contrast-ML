@@ -79,7 +79,7 @@ export function TrainingContainer({
 	}
 
 	return (
-		<div className="flex min-h-[calc(100vh-4rem)] flex-col">
+		<div className="flex min-h-full flex-col">
 			{/* Header with progress */}
 			<div className="border-b">
 				<div className="container flex flex-col gap-3 py-4 sm:flex-row sm:items-center sm:justify-between">

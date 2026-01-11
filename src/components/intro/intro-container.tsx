@@ -33,7 +33,7 @@ export function IntroContainer({ onComplete, onSkip }: IntroContainerProps) {
 	}, []);
 
 	return (
-		<div className="flex min-h-[calc(100vh-4rem)] flex-col">
+		<div className="flex min-h-full flex-col">
 			{/* Skip button - always visible */}
 			<div className="flex justify-end p-4">
 				<Button

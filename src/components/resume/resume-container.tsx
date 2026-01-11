@@ -43,14 +43,14 @@ export function ResumeContainer({
 
 	if (isLoading) {
 		return (
-			<div className="flex min-h-[calc(100vh-4rem)] items-center justify-center">
+			<div className="flex min-h-full items-center justify-center">
 				<div className="h-8 w-8 animate-spin rounded-full border-2 border-muted border-t-foreground" />
 			</div>
 		);
 	}
 
 	return (
-		<div className="flex min-h-[calc(100vh-4rem)] flex-col">
+		<div className="flex min-h-full flex-col">
 			{/* Header */}
 			<div className="border-b">
 				<div className="container py-6">

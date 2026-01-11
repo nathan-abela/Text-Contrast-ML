@@ -111,7 +111,7 @@ export function ResultsContainer({
 	// Loading state
 	if (isTraining) {
 		return (
-			<div className="flex min-h-[calc(100vh-4rem)] flex-col items-center justify-center gap-4 p-4">
+			<div className="flex min-h-full flex-col items-center justify-center gap-4 p-4">
 				<div className="h-8 w-8 animate-spin rounded-full border-2 border-muted border-t-foreground" />
 				<p className="text-muted-foreground">
 					Training with {trainingData.length} examples...
@@ -127,7 +127,7 @@ export function ResultsContainer({
 	// Error state
 	if (error) {
 		return (
-			<div className="flex min-h-[calc(100vh-4rem)] flex-col items-center justify-center gap-4 p-4">
+			<div className="flex min-h-full flex-col items-center justify-center gap-4 p-4">
 				<p className="text-destructive">Training failed: {error}</p>
 				<Button onClick={onRetrain}>Try Again</Button>
 			</div>
@@ -135,7 +135,7 @@ export function ResultsContainer({
 	}
 
 	return (
-		<div className="flex min-h-[calc(100vh-4rem)] flex-col">
+		<div className="flex min-h-full flex-col">
 			{/* Header */}
 			<div className="border-b">
 				<div className="container flex items-center justify-between py-4">

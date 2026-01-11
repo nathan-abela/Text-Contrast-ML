@@ -15,6 +15,7 @@ import { TrainingCard } from "./training-card";
 interface TrainingContainerProps {
 	onComplete: (data: TrainingExample[], preset: TrainingPreset) => void;
 	onBack: () => void;
+	onViewSaved?: () => void;
 }
 
 /**
@@ -24,6 +25,7 @@ interface TrainingContainerProps {
 export function TrainingContainer({
 	onComplete,
 	onBack,
+	onViewSaved,
 }: TrainingContainerProps) {
 	const [selectedPreset, setSelectedPreset] =
 		useState<TrainingPreset>("balanced");
@@ -206,12 +208,19 @@ export function TrainingContainer({
 			{/* Footer with actions */}
 			<div className="border-t bg-background/80 backdrop-blur-sm">
 				<div className="container flex items-center justify-between py-4">
-					<Button variant="ghost" onClick={onBack}>
-						Back to intro
-					</Button>
+					<div className="flex items-center gap-2">
+						<Button variant="ghost" onClick={onBack}>
+							Back
+						</Button>
+						{onViewSaved && (
+							<Button variant="ghost" onClick={onViewSaved}>
+								Saved Models
+							</Button>
+						)}
+					</div>
 
 					<div className="flex items-center gap-4">
-						<span className="text-sm text-muted-foreground">
+						<span className="hidden text-sm text-muted-foreground sm:inline">
 							{exampleCount} example
 							{exampleCount !== 1 ? "s" : ""} collected
 						</span>

@@ -20,6 +20,7 @@ interface ResultsContainerProps {
 	onSave?: (modelJson: string) => void;
 	isSaved?: boolean;
 	loadedModelJson?: string | null;
+	onViewSaved?: () => void;
 }
 
 /**
@@ -34,6 +35,7 @@ export function ResultsContainer({
 	onSave,
 	isSaved = false,
 	loadedModelJson,
+	onViewSaved,
 }: ResultsContainerProps) {
 	const {
 		isTraining,
@@ -199,12 +201,37 @@ export function ResultsContainer({
 				</div>
 			</div>
 
+			{/* Save confirmation */}
+			{isSaved && (
+				<div className="border-t bg-muted/50 px-4 py-2 text-center text-sm text-muted-foreground">
+					Model saved to browser storage. You can access it from{" "}
+					{onViewSaved ? (
+						<button
+							onClick={onViewSaved}
+							className="underline hover:text-foreground"
+						>
+							Saved Models
+						</button>
+					) : (
+						"Saved Models"
+					)}{" "}
+					on your next visit.
+				</div>
+			)}
+
 			{/* Footer */}
 			<div className="border-t bg-background/80 backdrop-blur-sm">
 				<div className="container flex items-center justify-between py-4">
-					<Button variant="ghost" onClick={onReset}>
-						Start Over
-					</Button>
+					<div className="flex items-center gap-2">
+						<Button variant="ghost" onClick={onReset}>
+							Start Over
+						</Button>
+						{onViewSaved && (
+							<Button variant="ghost" onClick={onViewSaved}>
+								Saved Models
+							</Button>
+						)}
+					</div>
 					<div className="flex gap-2">
 						{onSave && (
 							<Button

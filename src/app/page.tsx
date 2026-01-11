@@ -109,10 +109,14 @@ export default function HomePage() {
 		setPhase("intro");
 	}, []);
 
+	const handleViewSavedModels = useCallback(() => {
+		setPhase("resume");
+	}, []);
+
 	// Loading state
 	if (phase === null) {
 		return (
-			<div className="flex min-h-[calc(100vh-4rem)] items-center justify-center">
+			<div className="flex min-h-full items-center justify-center">
 				<div className="h-8 w-8 animate-spin rounded-full border-2 border-muted border-t-foreground" />
 			</div>
 		);
@@ -141,6 +145,7 @@ export default function HomePage() {
 				<TrainingContainer
 					onComplete={handleTrainingComplete}
 					onBack={handleBackToIntro}
+					onViewSaved={hasModels ? handleViewSavedModels : undefined}
 				/>
 			);
 
@@ -162,6 +167,7 @@ export default function HomePage() {
 					onSave={handleSaveModel}
 					isSaved={isModelSaved}
 					loadedModelJson={loadedModelJson}
+					onViewSaved={hasModels ? handleViewSavedModels : undefined}
 				/>
 			);
 

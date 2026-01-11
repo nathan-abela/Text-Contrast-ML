@@ -106,36 +106,42 @@ export function TrainingContainer({
 					</div>
 
 					{/* Training preset selector */}
-					<div className="flex items-center gap-2">
-						<span className="text-xs text-muted-foreground">
-							Training:
-						</span>
-						<div
-							role="radiogroup"
-							aria-label="Training intensity"
-							className="flex gap-1"
-						>
-							{(
-								Object.keys(
-									TRAINING_PRESETS
-								) as TrainingPreset[]
-							).map((preset) => (
-								<button
-									key={preset}
-									type="button"
-									role="radio"
-									aria-checked={selectedPreset === preset}
-									onClick={() => setSelectedPreset(preset)}
-									className={`rounded-md px-2 py-1 text-xs transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring ${
-										selectedPreset === preset
-											? "bg-foreground text-background"
-											: "bg-muted hover:bg-muted/80"
-									}`}
-								>
-									{TRAINING_PRESETS[preset].label}
-								</button>
-							))}
+					<div className="flex flex-col items-start gap-1 sm:items-end">
+						<div className="flex items-center gap-2">
+							<span className="text-xs text-muted-foreground">
+								Accuracy:
+							</span>
+							<div
+								role="radiogroup"
+								aria-label="Training accuracy level"
+								className="flex gap-1"
+							>
+								{(
+									Object.keys(
+										TRAINING_PRESETS
+									) as TrainingPreset[]
+								).map((preset) => (
+									<button
+										key={preset}
+										type="button"
+										role="radio"
+										aria-checked={selectedPreset === preset}
+										onClick={() => setSelectedPreset(preset)}
+										title={`${TRAINING_PRESETS[preset].iterations.toLocaleString()} training iterations`}
+										className={`rounded-md px-2 py-1 text-xs transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring ${
+											selectedPreset === preset
+												? "bg-foreground text-background"
+												: "bg-muted hover:bg-muted/80"
+										}`}
+									>
+										{TRAINING_PRESETS[preset].label}
+									</button>
+								))}
+							</div>
 						</div>
+						<span className="text-[10px] text-muted-foreground">
+							{TRAINING_PRESETS[selectedPreset].iterations.toLocaleString()} iterations · Higher = more accurate but slower
+						</span>
 					</div>
 				</div>
 			</div>

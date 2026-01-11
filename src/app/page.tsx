@@ -99,7 +99,7 @@ export default function HomePage() {
 		) => {
 			setTrainingState({ data: trainingData, preset });
 			setLoadedModelJson(modelJson);
-			setIsModelSaved(true);
+			setIsModelSaved(false); // Don't show "saved" message - it's already saved
 			setPhase("results");
 		},
 		[]

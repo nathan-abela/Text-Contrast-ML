@@ -233,7 +233,7 @@ export function ResultsContainer({
 						)}
 					</div>
 					<div className="flex gap-2">
-						{onSave && (
+						{onSave && !loadedModelJson && (
 							<Button
 								variant="outline"
 								onClick={handleSave}
@@ -243,7 +243,7 @@ export function ResultsContainer({
 							</Button>
 						)}
 						<Button variant="outline" onClick={onRetrain}>
-							Train Again
+							{loadedModelJson ? "Train New" : "Train Again"}
 						</Button>
 					</div>
 				</div>

@@ -9,13 +9,18 @@ import { INTRO_STEP_COUNT, IntroStep } from "./intro-step";
 interface IntroContainerProps {
 	onComplete: () => void;
 	onSkip: () => void;
+	onDemo: () => void;
 }
 
 /**
  * Container for the intro/ onboarding flow
  * Manages step navigation and provides skip functionality
  */
-export function IntroContainer({ onComplete, onSkip }: IntroContainerProps) {
+export function IntroContainer({
+	onComplete,
+	onSkip,
+	onDemo,
+}: IntroContainerProps) {
 	const [currentStep, setCurrentStep] = useState(0);
 
 	const isLastStep = currentStep === INTRO_STEP_COUNT - 1;
@@ -86,6 +91,11 @@ export function IntroContainer({ onComplete, onSkip }: IntroContainerProps) {
 						{currentStep > 0 && (
 							<Button variant="outline" onClick={handleBack}>
 								Back
+							</Button>
+						)}
+						{isLastStep && (
+							<Button variant="outline" onClick={onDemo}>
+								Try Demo
 							</Button>
 						)}
 						<Button onClick={handleNext}>

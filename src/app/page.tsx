@@ -2,10 +2,10 @@
 
 import { useCallback, useEffect, useState } from "react";
 import dynamic from "next/dynamic";
-// Import directly to avoid barrel export pulling in brain.js
 import { useModelHistory } from "@/hooks/use-model-history";
 import type { AppPhase, TrainingExample, TrainingPreset } from "@/types";
 
+import { DEMO_TRAINING_DATA } from "@/lib/demo-data";
 import { IntroContainer } from "@/components/intro";
 import { ResumeContainer } from "@/components/resume";
 import { TrainingContainer } from "@/components/training";
@@ -38,6 +38,7 @@ export default function HomePage() {
 	);
 	const [isModelSaved, setIsModelSaved] = useState(false);
 	const [loadedModelJson, setLoadedModelJson] = useState<string | null>(null);
+	const [isDemo, setIsDemo] = useState(false);
 
 	const { hasModels, isLoading, save } = useModelHistory();
 
@@ -56,11 +57,20 @@ export default function HomePage() {
 		setPhase("training");
 	}, []);
 
+	const handleDemo = useCallback(() => {
+		setTrainingState({ data: DEMO_TRAINING_DATA, preset: "balanced" });
+		setLoadedModelJson(null);
+		setIsModelSaved(false);
+		setIsDemo(true);
+		setPhase("results");
+	}, []);
+
 	const handleTrainingComplete = useCallback(
 		(data: TrainingExample[], preset: TrainingPreset) => {
 			setTrainingState({ data, preset });
 			setLoadedModelJson(null);
 			setIsModelSaved(false);
+			setIsDemo(false);
 			setPhase("results");
 		},
 		[]
@@ -138,6 +148,7 @@ export default function HomePage() {
 				<IntroContainer
 					onComplete={handleIntroComplete}
 					onSkip={handleIntroSkip}
+					onDemo={handleDemo}
 				/>
 			);
 
@@ -156,6 +167,7 @@ export default function HomePage() {
 					<IntroContainer
 						onComplete={handleIntroComplete}
 						onSkip={handleIntroSkip}
+						onDemo={handleDemo}
 					/>
 				);
 			}
@@ -169,6 +181,7 @@ export default function HomePage() {
 					isSaved={isModelSaved}
 					loadedModelJson={loadedModelJson}
 					onViewSaved={hasModels ? handleViewSavedModels : undefined}
+					isDemo={isDemo}
 				/>
 			);
 
@@ -177,6 +190,7 @@ export default function HomePage() {
 				<IntroContainer
 					onComplete={handleIntroComplete}
 					onSkip={handleIntroSkip}
+					onDemo={handleDemo}
 				/>
 			);
 	}

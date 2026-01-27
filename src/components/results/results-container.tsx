@@ -21,6 +21,7 @@ interface ResultsContainerProps {
 	isSaved?: boolean;
 	loadedModelJson?: string | null;
 	onViewSaved?: () => void;
+	isDemo?: boolean;
 }
 
 /**
@@ -36,6 +37,7 @@ export function ResultsContainer({
 	isSaved = false,
 	loadedModelJson,
 	onViewSaved,
+	isDemo = false,
 }: ResultsContainerProps) {
 	const {
 		isTraining,
@@ -142,10 +144,13 @@ export function ResultsContainer({
 			<div className="border-b">
 				<div className="container flex items-center justify-between py-4">
 					<div>
-						<h1 className="font-semibold">Model Trained</h1>
+						<h1 className="font-semibold">
+							{isDemo ? "Demo Mode" : "Model Trained"}
+						</h1>
 						<p className="text-sm text-muted-foreground">
-							{trainingData.length} examples ·{" "}
-							{TRAINING_PRESETS[preset].label} mode
+							{isDemo
+								? "Pre-trained model · Train your own for custom results"
+								: `${trainingData.length} examples · ${TRAINING_PRESETS[preset].label} mode`}
 						</p>
 					</div>
 				</div>
@@ -242,7 +247,7 @@ export function ResultsContainer({
 						)}
 					</div>
 					<div className="flex gap-2">
-						{onSave && !loadedModelJson && (
+						{onSave && !loadedModelJson && !isDemo && (
 							<Button
 								variant="outline"
 								onClick={handleSave}
@@ -252,7 +257,11 @@ export function ResultsContainer({
 							</Button>
 						)}
 						<Button variant="outline" onClick={onRetrain}>
-							{loadedModelJson ? "Train New" : "Train Again"}
+							{isDemo
+								? "Train Your Own"
+								: loadedModelJson
+								? "Train New"
+								: "Train Again"}
 						</Button>
 					</div>
 				</div>

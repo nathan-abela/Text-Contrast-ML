@@ -28,7 +28,7 @@ export function TrainingCard({
 				onClick={onClick}
 				aria-label={`Select ${textColor} text as more readable on this background`}
 				className={cn(
-					"group relative flex min-h-[140px] cursor-pointer items-center justify-center rounded-xl border-2 border-transparent p-6 text-lg font-medium transition-all",
+					"group relative flex min-h-[140px] cursor-pointer items-center justify-center rounded-xl border-2 border-transparent p-6 text-lg font-medium transition-all lg:min-h-[200px]",
 					"hover:border-foreground/30 hover:shadow-lg",
 					"focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
 					"active:scale-[0.98]",

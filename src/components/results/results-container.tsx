@@ -160,7 +160,7 @@ export function ResultsContainer({
 			<div className="flex flex-1 flex-col items-center justify-center gap-8 p-4">
 				{/* Preview box */}
 				<div
-					className="flex h-48 w-full max-w-md items-center justify-center rounded-xl border-2 text-2xl font-semibold transition-colors"
+					className="flex h-48 w-full max-w-md items-center justify-center rounded-xl border-2 text-2xl font-semibold transition-colors lg:h-56 lg:max-w-lg"
 					style={{
 						backgroundColor: testColor,
 						color: textColor,

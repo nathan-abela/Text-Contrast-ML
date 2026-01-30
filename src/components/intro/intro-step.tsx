@@ -16,7 +16,7 @@ function ContrastDemo({ good }: { good: boolean }) {
 
 	return (
 		<div
-			className="flex h-24 w-full items-center justify-center rounded-lg border border-foreground/20 text-lg font-medium transition-all"
+			className="flex h-24 w-full items-center justify-center rounded-lg border border-foreground/20 text-lg font-medium transition-all lg:h-32"
 			style={{ backgroundColor: bgColor, color: textColor }}
 		>
 			{good ? "Easy to read" : "Hard to read"}
@@ -30,10 +30,10 @@ function ContrastDemo({ good }: { good: boolean }) {
 function TrainingPreview() {
 	return (
 		<div className="flex flex-col gap-3 sm:flex-row">
-			<div className="flex h-20 flex-1 cursor-pointer items-center justify-center rounded-lg border-2 border-transparent bg-[#e67e22] text-black transition-all hover:border-foreground/50">
+			<div className="flex h-20 flex-1 cursor-pointer items-center justify-center rounded-lg border-2 border-transparent bg-[#e67e22] text-black transition-all hover:border-foreground/50 lg:h-28">
 				Black text
 			</div>
-			<div className="flex h-20 flex-1 cursor-pointer items-center justify-center rounded-lg border-2 border-transparent bg-[#e67e22] text-white transition-all hover:border-foreground/50">
+			<div className="flex h-20 flex-1 cursor-pointer items-center justify-center rounded-lg border-2 border-transparent bg-[#e67e22] text-white transition-all hover:border-foreground/50 lg:h-28">
 				White text
 			</div>
 		</div>
@@ -77,7 +77,7 @@ export function IntroStep({ step, className }: IntroStepProps) {
 			description:
 				"After training, pick any color and watch the AI predict the best text color. More examples = better predictions.",
 			content: (
-				<div className="flex items-center justify-center rounded-lg border bg-muted/30 p-8">
+				<div className="flex items-center justify-center rounded-lg border bg-muted/30 p-8 lg:p-12">
 					<div className="flex items-center gap-4">
 						<div className="h-12 w-12 rounded-full bg-gradient-to-br from-purple-500 to-pink-500" />
 						<div className="text-2xl">→</div>

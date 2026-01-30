@@ -73,7 +73,7 @@ function NumberInput({
 				onBlur={handleBlur}
 				min={min}
 				max={max}
-				className="w-full rounded-md border bg-background px-2 py-1.5 text-center text-sm font-mono tabular-nums focus:outline-none focus:ring-1 focus:ring-ring"
+				className="w-full rounded-md border bg-background px-2 py-1.5 text-center text-sm tabular-nums focus:outline-none focus:ring-1 focus:ring-ring"
 			/>
 		</div>
 	);
@@ -185,7 +185,7 @@ export function ColorInputs({
 						onChange={handleHexChange}
 						onBlur={handleHexBlur}
 						maxLength={7}
-						className="w-full rounded-md border bg-background px-3 py-1.5 text-center font-mono text-sm focus:outline-none focus:ring-1 focus:ring-ring"
+						className="w-full rounded-md border bg-background px-3 py-1.5 text-center text-sm focus:outline-none focus:ring-1 focus:ring-ring"
 						placeholder="#000000"
 					/>
 				</div>

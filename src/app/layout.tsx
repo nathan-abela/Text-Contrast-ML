@@ -35,7 +35,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
 				<head />
 				<body
 					className={cn(
-						"h-screen overflow-hidden bg-background font-sans antialiased",
+						"h-screen overflow-hidden font-sans antialiased",
 						fontSans.variable
 					)}
 				>
@@ -44,12 +44,14 @@ export default function RootLayout({ children }: RootLayoutProps) {
 						defaultTheme="system"
 						enableSystem
 					>
-						<div className="flex h-full flex-col">
-							<SiteHeader />
-							<main className="flex-1 overflow-auto">
-								{children}
-							</main>
-							<SiteFooter />
+						<div className="dot-grid flex h-full items-center justify-center bg-background p-0 lg:p-4">
+							<div className="flex h-full w-full max-w-6xl flex-col overflow-hidden bg-background lg:h-[calc(100vh-2rem)] lg:rounded-xl lg:border lg:shadow-sm">
+								<SiteHeader />
+								<main className="flex-1 overflow-auto">
+									{children}
+								</main>
+								<SiteFooter />
+							</div>
 						</div>
 						<TailwindIndicator />
 					</ThemeProvider>

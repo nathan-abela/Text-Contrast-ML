@@ -77,3 +77,20 @@
 		font-feature-settings: "rlig" 1, "calt" 1;
 	}
 }
+
+.dot-grid {
+	background-image: radial-gradient(
+		circle,
+		hsl(var(--foreground) / 0.15) 1px,
+		transparent 1px
+	);
+	background-size: 24px 24px;
+}
+
+.dark .dot-grid {
+	background-image: radial-gradient(
+		circle,
+		hsl(var(--foreground) / 0.08) 1px,
+		transparent 1px
+	);
+}

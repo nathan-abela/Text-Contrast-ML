@@ -8,7 +8,8 @@
 		"start": "next start",
 		"export": "next export",
 		"lint": "next lint",
-		"lint:fix": "next lint --fix"
+		"lint:fix": "next lint --fix",
+		"clean": "rimraf .next && rimraf out && rimraf node_modules"
 	},
 	"dependencies": {
 		"@radix-ui/react-slot": "^1.0.2",

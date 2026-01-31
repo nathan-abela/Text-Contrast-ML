@@ -1,10 +1,14 @@
 "use client";
 
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { ArrowRight } from "lucide-react";
+
 import { siteConfig } from "@/config/site";
 
 export function SiteFooter() {
 	const githubUsername = siteConfig.links.github.split("/").slice(-2, -1)[0];
-	const currentYear = new Date().getFullYear();
+	const isLearnPage = usePathname() === "/learn";
 
 	return (
 		<footer className="border-t">
@@ -21,9 +25,15 @@ export function SiteFooter() {
 					</a>
 					. Built with Next.js, Brain.js, and shadcn/ui.
 				</p>
-				<p>
-					© {currentYear} {siteConfig.name}
-				</p>
+				{!isLearnPage && (
+					<Link
+						href="/learn"
+						className="inline-flex items-center gap-1.5 font-medium text-foreground underline-offset-4 hover:underline"
+					>
+						Learn how it works
+						<ArrowRight className="h-3.5 w-3.5" />
+					</Link>
+				)}
 			</div>
 		</footer>
 	);

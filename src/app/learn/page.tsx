@@ -235,9 +235,8 @@ export default function LearnPage() {
 							<p className="pl-6">
 								After training, pick any color and the model
 								will predict whether to use black or white text.
-								It also shows a confidence score so you can see
-								how certain it is. The more varied your training
-								examples, the better it handles edge cases.
+								The more varied your training examples, the
+								better it handles edge cases.
 							</p>
 						</div>
 					</div>
@@ -357,7 +356,7 @@ export default function LearnPage() {
 						<div className="flex items-center gap-2">
 							<Hand className="h-4 w-4 text-foreground" />
 							<h3 className="font-medium text-foreground">
-								Prediction and confidence
+								Prediction
 							</h3>
 						</div>
 						<div className="space-y-3 pl-6">
@@ -368,19 +367,26 @@ export default function LearnPage() {
 								</Term>{" "}
 								on the input color and produces a score between
 								0 and 1 for each label. The label with the
-								higher score becomes the prediction, and that
-								score is displayed as the confidence percentage.
+								higher score becomes the recommendation. For
+								example, if the network outputs{" "}
+								<code className="rounded bg-muted px-1.5 py-0.5 text-sm text-foreground">
+									dark: 0.92
+								</code>{" "}
+								and{" "}
+								<code className="rounded bg-muted px-1.5 py-0.5 text-sm text-foreground">
+									light: 0.08
+								</code>
+								, it recommends white text.
 							</p>
 							<p>
-								Low confidence (around 50%) means the network is
-								essentially guessing. This often happens with
-								mid-tone colors where both text options are
-								similarly readable. High confidence (above 90%)
-								indicates the network has seen enough similar
-								colors during training to make a strong
-								prediction. Models trained on a diverse set of
-								colors across the full spectrum tend to produce
-								higher confidence for a wider range of inputs.
+								Prediction quality depends entirely on your
+								training data. A model trained on a diverse set
+								of colors across the full spectrum will handle
+								edge cases better than one trained on only a
+								handful of examples. After training, the app
+								shows a fit rating (Excellent, Good, Fair, or
+								Poor) based on the final training loss and the
+								number of examples you provided.
 							</p>
 						</div>
 					</div>

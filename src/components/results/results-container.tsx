@@ -43,17 +43,16 @@ export function ResultsContainer({
 		isTraining,
 		isTrained,
 		error,
+		trainingResult,
 		train,
 		predict,
 		exportModel,
 		importModel,
 	} = useNeuralNetwork();
 
-	// Test color state (placeholder - will be replaced with color picker)
 	const [testColor, setTestColor] = useState("#3498db");
 	const [prediction, setPrediction] = useState<{
 		result: "dark" | "light";
-		confidence: number;
 	} | null>(null);
 
 	// Train network on mount or load saved model
@@ -90,7 +89,6 @@ export function ResultsContainer({
 		if (result) {
 			setPrediction({
 				result: result.prediction,
-				confidence: result.confidence,
 			});
 		}
 	}, [testColor, isTrained, predict]);
@@ -181,27 +179,47 @@ export function ResultsContainer({
 					)}
 				</div>
 
-				{/* Confidence display */}
 				{prediction && (
-					<div className="flex flex-col items-center gap-2">
-						<p className="text-lg">
-							{prediction.result === "dark" ? "White" : "Black"}{" "}
-							text recommended
-						</p>
-						<div className="flex items-center gap-3">
-							<div className="h-1.5 w-24 overflow-hidden rounded-full bg-muted">
-								{/* prettier-ignore */}
-								<div
-									className="h-full rounded-full bg-foreground transition-all duration-300"
-									style={{width: `${prediction.confidence}%`}}
-								/>
-							</div>
-							<span className="text-sm text-muted-foreground">
-								{prediction.confidence}% confidence
+					<p className="text-lg">
+						{prediction.result === "dark" ? "White" : "Black"} text
+						recommended
+					</p>
+				)}
+
+				{trainingResult && !isDemo && (
+					<div className="flex flex-col items-center gap-1">
+						<div className="flex items-center gap-2">
+							<div
+								className={`h-2 w-2 rounded-full ${
+									trainingResult.quality === "great"
+										? "bg-green-500"
+										: trainingResult.quality === "good"
+										? "bg-green-500"
+										: trainingResult.quality === "fair"
+										? "bg-yellow-500"
+										: "bg-red-500"
+								}`}
+							/>
+							<span className="text-xs text-muted-foreground">
+								{trainingResult.quality === "great"
+									? "Excellent fit"
+									: trainingResult.quality === "good"
+									? "Good fit"
+									: trainingResult.quality === "fair"
+									? "Fair fit"
+									: "Poor fit"}
+								{" · "}
+								{trainingResult.quality === "poor"
+									? "Try adding more varied examples"
+									: trainingResult.quality === "fair"
+									? "More examples could improve results"
+									: "Model learned your preferences well"}
 							</span>
 						</div>
 					</div>
 				)}
+
+				<hr className="w-full max-w-xs border-border" />
 
 				{/* Custom color picker */}
 				<div className="flex flex-col items-center gap-4">

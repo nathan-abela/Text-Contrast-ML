@@ -9,6 +9,8 @@ import {
 } from "@/types";
 import { NeuralNetwork } from "brain.js";
 
+type TrainingQuality = "great" | "good" | "fair" | "poor";
+
 interface UseNeuralNetworkReturn {
 	/** Whether the network is currently training */
 	isTraining: boolean;
@@ -16,6 +18,8 @@ interface UseNeuralNetworkReturn {
 	isTrained: boolean;
 	/** Training error (if any) */
 	error: string | null;
+	/** Final training loss and quality rating */
+	trainingResult: { loss: number; quality: TrainingQuality } | null;
 	/** Train the network with examples */
 	train: (data: TrainingExample[], preset: TrainingPreset) => Promise<void>;
 	/** Make a prediction for a color */
@@ -35,8 +39,6 @@ interface UseNeuralNetworkReturn {
 interface PredictionResult {
 	/** Predicted text color: "dark" means use white text, "light" means use black text */
 	prediction: "dark" | "light";
-	/** Confidence percentage (0-100) */
-	confidence: number;
 	/** Raw output values from the network */
 	raw: PredictionOutput;
 }
@@ -57,6 +59,10 @@ export function useNeuralNetwork(): UseNeuralNetworkReturn {
 	const [isTraining, setIsTraining] = useState(false);
 	const [isTrained, setIsTrained] = useState(false);
 	const [error, setError] = useState<string | null>(null);
+	const [trainingResult, setTrainingResult] = useState<{
+		loss: number;
+		quality: TrainingQuality;
+	} | null>(null);
 
 	const train = useCallback(
 		async (
@@ -81,12 +87,22 @@ export function useNeuralNetwork(): UseNeuralNetworkReturn {
 					// Use setTimeout to allow UI to update
 					setTimeout(() => {
 						try {
-							network.train(data, {
+							const result = network.train(data, {
 								iterations,
 								errorThresh: 0.005,
 								log: false,
 							});
 							networkRef.current = network;
+							const loss = result.error;
+							const exampleCount = data.length;
+							let quality: TrainingQuality = "poor";
+							if (loss < 0.01 && exampleCount >= 15)
+								quality = "great";
+							else if (loss < 0.05 && exampleCount >= 10)
+								quality = "good";
+							else if (loss < 0.15 && exampleCount >= 5)
+								quality = "fair";
+							setTrainingResult({ loss, quality });
 							setIsTrained(true);
 							resolve();
 						} catch (err) {
@@ -124,13 +140,9 @@ export function useNeuralNetwork(): UseNeuralNetworkReturn {
 
 				const prediction: "dark" | "light" =
 					darkScore > lightScore ? "dark" : "light";
-				const confidence = Math.round(
-					Math.max(darkScore, lightScore) * 100
-				);
 
 				return {
 					prediction,
-					confidence,
 					raw: { dark: darkScore, light: lightScore },
 				};
 			} catch {
@@ -144,6 +156,7 @@ export function useNeuralNetwork(): UseNeuralNetworkReturn {
 		networkRef.current = null;
 		setIsTrained(false);
 		setError(null);
+		setTrainingResult(null);
 	}, []);
 
 	const exportModel = useCallback((): object | null => {
@@ -171,6 +184,7 @@ export function useNeuralNetwork(): UseNeuralNetworkReturn {
 		isTraining,
 		isTrained,
 		error,
+		trainingResult,
 		train,
 		predict,
 		reset,

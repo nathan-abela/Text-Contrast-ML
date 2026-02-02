@@ -30,10 +30,10 @@ function ContrastDemo({ good }: { good: boolean }) {
 function TrainingPreview() {
 	return (
 		<div className="flex flex-col gap-3 sm:flex-row">
-			<div className="flex h-20 flex-1 cursor-pointer items-center justify-center rounded-lg border-2 border-transparent bg-[#e67e22] text-black transition-all hover:border-foreground/50 lg:h-28">
+			<div className="flex h-24 flex-1 items-center justify-center rounded-lg border border-transparent bg-[#e67e22] text-lg font-medium text-black lg:h-32">
 				Black text
 			</div>
-			<div className="flex h-20 flex-1 cursor-pointer items-center justify-center rounded-lg border-2 border-transparent bg-[#e67e22] text-white transition-all hover:border-foreground/50 lg:h-28">
+			<div className="flex h-24 flex-1 items-center justify-center rounded-lg border border-transparent bg-[#e67e22] text-lg font-medium text-white lg:h-32">
 				White text
 			</div>
 		</div>
@@ -51,18 +51,8 @@ export function IntroStep({ step, className }: IntroStepProps) {
 				"Text readability depends on the contrast between text and background colors. Good contrast makes content accessible to everyone.",
 			content: (
 				<div className="grid gap-4 sm:grid-cols-2">
-					<div className="space-y-2">
-						<span className="text-xs text-muted-foreground">
-							Good contrast
-						</span>
-						<ContrastDemo good />
-					</div>
-					<div className="space-y-2">
-						<span className="text-xs text-muted-foreground">
-							Poor contrast
-						</span>
-						<ContrastDemo good={false} />
-					</div>
+					<ContrastDemo good />
+					<ContrastDemo good={false} />
 				</div>
 			),
 		},
@@ -75,9 +65,9 @@ export function IntroStep({ step, className }: IntroStepProps) {
 		{
 			title: "See It Learn",
 			description:
-				"After training, pick any color and watch the AI predict the best text color. More examples = better predictions.",
+				"After training, pick any color and watch the AI predict the best text color. The more varied your examples, the better the predictions.",
 			content: (
-				<div className="flex items-center justify-center rounded-lg border bg-muted/30 p-8 lg:p-12">
+				<div className="flex h-24 items-center justify-center rounded-lg border border-transparent bg-muted/30 lg:h-32">
 					<div className="flex items-center gap-4">
 						<div className="h-12 w-12 rounded-full bg-gradient-to-br from-purple-500 to-pink-500" />
 						<div className="text-2xl">→</div>

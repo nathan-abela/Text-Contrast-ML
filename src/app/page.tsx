@@ -7,7 +7,7 @@ import type { AppPhase, TrainingExample, TrainingPreset } from "@/types";
 
 import { DEMO_TRAINING_DATA } from "@/lib/demo-data";
 import { IntroContainer } from "@/components/intro";
-import { ResumeContainer } from "@/components/resume";
+import { SavedModelsContainer } from "@/components/saved-models";
 import { TrainingContainer } from "@/components/training";
 
 // Dynamic import for ResultsContainer to avoid SSR with Brain.js
@@ -45,7 +45,7 @@ export default function HomePage() {
 	// Determine initial phase based on saved models (only on mount)
 	useEffect(() => {
 		if (isLoading || phase !== null) return;
-		setPhase(hasModels ? "resume" : "intro");
+		setPhase(hasModels ? "saved-models" : "intro");
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [isLoading]);
 
@@ -121,7 +121,7 @@ export default function HomePage() {
 	}, []);
 
 	const handleViewSavedModels = useCallback(() => {
-		setPhase("resume");
+		setPhase("saved-models");
 	}, []);
 
 	// Loading state
@@ -135,9 +135,9 @@ export default function HomePage() {
 
 	// Render based on current phase
 	switch (phase) {
-		case "resume":
+		case "saved-models":
 			return (
-				<ResumeContainer
+				<SavedModelsContainer
 					onLoadModel={handleLoadModel}
 					onStartNew={handleStartNew}
 				/>

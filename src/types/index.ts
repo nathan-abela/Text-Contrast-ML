@@ -1,7 +1,7 @@
 /**
  * Application phase/ step management
  */
-export type AppPhase = "resume" | "intro" | "training" | "results";
+export type AppPhase = "saved-models" | "intro" | "training" | "results";
 
 /**
  * Training data structure for Brain.js

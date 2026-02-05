@@ -1,7 +1,6 @@
 "use client";
 
 import { useCallback } from "react";
-// Import directly to avoid barrel export pulling in brain.js
 import { useModelHistory } from "@/hooks/use-model-history";
 import type { SavedModel, TrainingExample, TrainingPreset } from "@/types";
 
@@ -9,7 +8,7 @@ import { Button } from "@/components/ui/button";
 
 import { ModelCard } from "./model-card";
 
-interface ResumeContainerProps {
+interface SavedModelsContainerProps {
 	onLoadModel: (
 		modelJson: string,
 		trainingData: TrainingExample[],
@@ -19,12 +18,12 @@ interface ResumeContainerProps {
 }
 
 /**
- * Resume phase - shows saved models and allows loading or starting fresh
+ * Shows saved models and allows loading or starting fresh
  */
-export function ResumeContainer({
+export function SavedModelsContainer({
 	onLoadModel,
 	onStartNew,
-}: ResumeContainerProps) {
+}: SavedModelsContainerProps) {
 	const { models, remove, isLoading } = useModelHistory();
 
 	const handleLoad = useCallback(

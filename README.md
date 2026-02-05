@@ -57,8 +57,7 @@ For technical details, visit the [Learn page](https://nathan-abela.github.io/Tex
    npm install
    ```
 
-   > [!NOTE]
-   > The `.npmrc` file skips native compilation for Brain.js. No Python or C++ build tools needed. See [troubleshooting.md](troubleshooting.md) if you encounter issues.
+   > **Note:** The `.npmrc` file skips native compilation for Brain.js. No Python or C++ build tools needed. See [troubleshooting.md](troubleshooting.md) if you encounter issues.
 
 3. **Start the development server:**
 

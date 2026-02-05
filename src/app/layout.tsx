@@ -19,9 +19,6 @@ export const metadata: Metadata = {
 		{ media: "(prefers-color-scheme: light)", color: "white" },
 		{ media: "(prefers-color-scheme: dark)", color: "black" },
 	],
-	icons: {
-		icon: "/favicon.svg",
-	},
 };
 
 interface RootLayoutProps {

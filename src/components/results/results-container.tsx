@@ -155,10 +155,10 @@ export function ResultsContainer({
 			</div>
 
 			{/* Main content */}
-			<div className="flex flex-1 flex-col items-center justify-center gap-8 p-4">
+			<div className="flex flex-1 flex-col items-center gap-4 p-4 sm:justify-center sm:gap-8">
 				{/* Preview box */}
 				<div
-					className="flex h-48 w-full max-w-md items-center justify-center rounded-xl border-2 text-2xl font-semibold transition-colors lg:h-56 lg:max-w-lg"
+					className="flex h-40 w-full max-w-md items-center justify-center rounded-xl border-2 text-xl font-semibold transition-colors sm:h-48 sm:text-2xl lg:h-56 lg:max-w-lg"
 					style={{
 						backgroundColor: testColor,
 						color: textColor,
@@ -180,34 +180,34 @@ export function ResultsContainer({
 				</div>
 
 				{prediction && (
-					<p className="text-lg">
+					<p className="hidden text-lg sm:block">
 						{prediction.result === "dark" ? "White" : "Black"} text
 						recommended
 					</p>
 				)}
 
 				{trainingResult && !isDemo && (
-					<div className="flex flex-col items-center gap-1">
-						<div className="flex items-center gap-2">
-							<div
-								className={`h-2 w-2 rounded-full ${
-									trainingResult.quality === "great"
-										? "bg-green-500"
-										: trainingResult.quality === "good"
-										? "bg-green-500"
-										: trainingResult.quality === "fair"
-										? "bg-yellow-500"
-										: "bg-red-500"
-								}`}
-							/>
-							<span className="text-xs text-muted-foreground">
-								{trainingResult.quality === "great"
-									? "Excellent fit"
+					<div className="flex items-center gap-2">
+						<div
+							className={`h-2 w-2 rounded-full ${
+								trainingResult.quality === "great"
+									? "bg-green-500"
 									: trainingResult.quality === "good"
-									? "Good fit"
+									? "bg-green-500"
 									: trainingResult.quality === "fair"
-									? "Fair fit"
-									: "Poor fit"}
+									? "bg-yellow-500"
+									: "bg-red-500"
+							}`}
+						/>
+						<span className="text-xs text-muted-foreground">
+							{trainingResult.quality === "great"
+								? "Excellent fit"
+								: trainingResult.quality === "good"
+								? "Good fit"
+								: trainingResult.quality === "fair"
+								? "Fair fit"
+								: "Poor fit"}
+							<span className="hidden sm:inline">
 								{" · "}
 								{trainingResult.quality === "poor"
 									? "Try adding more varied examples"
@@ -215,15 +215,15 @@ export function ResultsContainer({
 									? "More examples could improve results"
 									: "Model learned your preferences well"}
 							</span>
-						</div>
+						</span>
 					</div>
 				)}
 
-				<hr className="w-full max-w-xs border-border" />
+				<hr className="hidden w-full max-w-xs border-border sm:block" />
 
 				{/* Custom color picker */}
-				<div className="flex flex-col items-center gap-4">
-					<label className="text-sm text-muted-foreground">
+				<div className="flex flex-col items-center gap-2 sm:gap-4">
+					<label className="hidden text-sm text-muted-foreground sm:block">
 						Test a background color
 					</label>
 					<ColorPicker
@@ -253,7 +253,7 @@ export function ResultsContainer({
 
 			{/* Footer */}
 			<div className="border-t bg-background/80 backdrop-blur-sm">
-				<div className="container flex items-center justify-between py-4">
+				<div className="container flex items-center justify-between py-2 sm:py-4">
 					<div className="flex items-center gap-2">
 						<Button variant="ghost" onClick={onReset}>
 							Start Over

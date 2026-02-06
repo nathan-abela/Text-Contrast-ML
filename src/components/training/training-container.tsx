@@ -126,8 +126,12 @@ export function TrainingContainer({
 										type="button"
 										role="radio"
 										aria-checked={selectedPreset === preset}
-										onClick={() => setSelectedPreset(preset)}
-										title={`${TRAINING_PRESETS[preset].iterations.toLocaleString()} training iterations`}
+										onClick={() =>
+											setSelectedPreset(preset)
+										}
+										title={`${TRAINING_PRESETS[
+											preset
+										].iterations.toLocaleString()} training iterations`}
 										className={`rounded-md px-2 py-1 text-xs transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring ${
 											selectedPreset === preset
 												? "bg-foreground text-background"
@@ -139,8 +143,11 @@ export function TrainingContainer({
 								))}
 							</div>
 						</div>
-						<span className="text-[10px] text-muted-foreground">
-							{TRAINING_PRESETS[selectedPreset].iterations.toLocaleString()} iterations · Higher = more accurate but slower
+						<span className="hidden text-[10px] text-muted-foreground sm:inline">
+							{TRAINING_PRESETS[
+								selectedPreset
+							].iterations.toLocaleString()}{" "}
+							iterations · Higher = more accurate but slower
 						</span>
 					</div>
 				</div>
@@ -148,7 +155,7 @@ export function TrainingContainer({
 
 			{/* Main training area */}
 			<div className="flex flex-1 flex-col items-center justify-center p-4">
-				<div className="w-full max-w-2xl space-y-6">
+				<div className="w-full max-w-2xl space-y-4 sm:space-y-6">
 					{/* Instruction */}
 					<p className="text-center text-muted-foreground">
 						Click the box where the text is easier to read
@@ -168,8 +175,7 @@ export function TrainingContainer({
 						/>
 					</div>
 
-					{/* Current color indicator */}
-					<p className="text-center text-xs text-muted-foreground">
+					<p className="hidden text-center text-xs text-muted-foreground sm:block">
 						Background: {currentColor}
 					</p>
 				</div>
@@ -213,7 +219,7 @@ export function TrainingContainer({
 
 			{/* Footer with actions */}
 			<div className="border-t bg-background/80 backdrop-blur-sm">
-				<div className="container flex items-center justify-between py-4">
+				<div className="container flex items-center justify-between py-2 sm:py-4">
 					<div className="flex items-center gap-2">
 						<Button variant="ghost" onClick={onBack}>
 							Back
@@ -225,15 +231,13 @@ export function TrainingContainer({
 						)}
 					</div>
 
-					<div className="flex items-center gap-4">
+					<div className="flex items-center gap-2 sm:gap-4">
 						<span className="hidden text-sm text-muted-foreground sm:inline">
 							{exampleCount} example
 							{exampleCount !== 1 ? "s" : ""} collected
 						</span>
 						{exampleCount > 0 && (
-							<Button onClick={handleFinish}>
-								Finish Training
-							</Button>
+							<Button onClick={handleFinish}>Finish</Button>
 						)}
 					</div>
 				</div>

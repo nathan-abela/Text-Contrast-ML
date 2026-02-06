@@ -41,7 +41,18 @@ export function IntroContainer({
 		<div className="flex min-h-full flex-col">
 			{/* Skip button - always visible */}
 			<div className="border-b">
-				<div className="container flex justify-end py-5">
+				<div className="container flex items-center justify-between py-2 sm:py-4">
+					<div>
+						{isLastStep && (
+							<Button
+								variant="outline"
+								size="sm"
+								onClick={onDemo}
+							>
+								Try demo
+							</Button>
+						)}
+					</div>
 					<Button
 						variant="ghost"
 						size="sm"
@@ -88,18 +99,15 @@ export function IntroContainer({
 
 					{/* Navigation buttons */}
 					<div className="flex gap-2">
-						{currentStep > 0 && (
-							<Button variant="outline" onClick={handleBack}>
-								Back
-							</Button>
-						)}
-						{isLastStep && (
-							<Button variant="outline" onClick={onDemo}>
-								Try Demo
-							</Button>
-						)}
+						<Button
+							variant="outline"
+							onClick={handleBack}
+							className={currentStep === 0 ? "invisible" : ""}
+						>
+							Back
+						</Button>
 						<Button onClick={handleNext}>
-							{isLastStep ? "Start Training" : "Next"}
+							{isLastStep ? "Start" : "Next"}
 						</Button>
 					</div>
 				</div>

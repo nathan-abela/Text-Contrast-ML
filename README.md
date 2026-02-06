@@ -1,6 +1,6 @@
 <div align="center">
     <a href="https://nathan-abela.github.io/Text-Contrast-ML">
-        <img src="src/app/favicon.svg" width="80" alt="Text Contrast ML Logo"/>
+        <img src="src/app/icon.svg" width="80" alt="Text Contrast ML Logo"/>
     </a>
 
 # Text Contrast ML
@@ -80,5 +80,5 @@ For technical details, visit the [Learn page](https://nathan-abela.github.io/Tex
 ---
 
 <p align="center">
-    <img src="src/app/favicon.svg" width="40" alt="Text Contrast ML Icon"/>
+    <img src="src/app/icon.svg" width="40" alt="Text Contrast ML Icon"/>
 </p>

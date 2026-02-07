@@ -1,9 +1,16 @@
 "use client";
 
 import { useCallback, useMemo } from "react";
-import type { HSLColor, RGBColor } from "@/types";
+import type { HSLColor, HSVColor, RGBColor } from "@/types";
 
-import { hexToRgb, hslToRgb, rgbToHex, rgbToHsl } from "@/lib/colors";
+import {
+	hexToRgb,
+	hslToRgb,
+	hsvToRgb,
+	rgbToHex,
+	rgbToHsl,
+	rgbToHsv,
+} from "@/lib/colors";
 import { cn } from "@/lib/utils";
 
 import { ColorInputs } from "./color-inputs";
@@ -20,7 +27,7 @@ interface ColorPickerProps {
  * Complete color picker with saturation area, hue slider, and input fields
  */
 export function ColorPicker({ value, onChange, className }: ColorPickerProps) {
-	// Convert hex to RGB and HSL
+	// Convert hex to RGB, HSL, and HSV
 	const rgb = useMemo((): RGBColor => {
 		const parsed = hexToRgb(value);
 		return parsed ?? { r: 0, g: 0, b: 0 };
@@ -30,24 +37,28 @@ export function ColorPicker({ value, onChange, className }: ColorPickerProps) {
 		return rgbToHsl(rgb);
 	}, [rgb]);
 
-	// Handle saturation area changes
+	const hsv = useMemo((): HSVColor => {
+		return rgbToHsv(rgb);
+	}, [rgb]);
+
+	// Handle saturation area changes (uses HSV model)
 	const handleSaturationChange = useCallback(
-		(saturation: number, lightness: number) => {
-			const newHsl: HSLColor = { h: hsl.h, s: saturation, l: lightness };
-			const newRgb = hslToRgb(newHsl);
+		(saturation: number, valueComponent: number) => {
+			const newHsv: HSVColor = { h: hsv.h, s: saturation, v: valueComponent };
+			const newRgb = hsvToRgb(newHsv);
 			onChange(rgbToHex(newRgb));
 		},
-		[hsl.h, onChange]
+		[hsv.h, onChange]
 	);
 
-	// Handle hue slider changes
+	// Handle hue slider changes (uses HSV to preserve saturation/value)
 	const handleHueChange = useCallback(
 		(hue: number) => {
-			const newHsl: HSLColor = { h: hue, s: hsl.s, l: hsl.l };
-			const newRgb = hslToRgb(newHsl);
+			const newHsv: HSVColor = { h: hue, s: hsv.s, v: hsv.v };
+			const newRgb = hsvToRgb(newHsv);
 			onChange(rgbToHex(newRgb));
 		},
-		[hsl.s, hsl.l, onChange]
+		[hsv.s, hsv.v, onChange]
 	);
 
 	// Handle hex input changes
@@ -77,16 +88,16 @@ export function ColorPicker({ value, onChange, className }: ColorPickerProps) {
 
 	return (
 		<div className={cn("flex flex-col gap-4 w-full max-w-xs", className)}>
-			{/* Saturation/Lightness area */}
+			{/* Saturation/Value area (HSV model) */}
 			<SaturationArea
-				hue={hsl.h}
-				saturation={hsl.s}
-				lightness={hsl.l}
+				hue={hsv.h}
+				saturation={hsv.s}
+				value={hsv.v}
 				onChange={handleSaturationChange}
 			/>
 
 			{/* Hue slider */}
-			<HueSlider hue={hsl.h} onChange={handleHueChange} />
+			<HueSlider hue={hsv.h} onChange={handleHueChange} />
 
 			{/* Color inputs */}
 			<ColorInputs

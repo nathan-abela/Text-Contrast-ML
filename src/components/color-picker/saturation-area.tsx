@@ -9,8 +9,8 @@ import { useDrag } from "./use-drag";
 interface SaturationAreaProps {
 	hue: number;
 	saturation: number;
-	lightness: number;
-	onChange: (saturation: number, lightness: number) => void;
+	value: number;
+	onChange: (saturation: number, value: number) => void;
 	className?: string;
 }
 
@@ -18,22 +18,22 @@ const STEP = 2;
 const LARGE_STEP = 10;
 
 /**
- * Saturation/Brightness picker area
+ * Saturation/Brightness picker area (HSV model)
  * X-axis: Saturation (0-100)
- * Y-axis: Brightness/Value (100-0, inverted so bright is at top)
+ * Y-axis: Value/Brightness (100-0, inverted so bright is at top)
  */
 export function SaturationArea({
 	hue,
 	saturation,
-	lightness,
+	value,
 	onChange,
 	className,
 }: SaturationAreaProps) {
 	const handleDrag = useCallback(
 		(x: number, y: number) => {
 			const newSaturation = Math.round(x * 100);
-			const newLightness = Math.round((1 - y) * 100);
-			onChange(newSaturation, newLightness);
+			const newValue = Math.round((1 - y) * 100);
+			onChange(newSaturation, newValue);
 		},
 		[onChange]
 	);
@@ -47,7 +47,7 @@ export function SaturationArea({
 		(e: React.KeyboardEvent) => {
 			const step = e.shiftKey ? LARGE_STEP : STEP;
 			let newSaturation = saturation;
-			let newLightness = lightness;
+			let newValue = value;
 
 			switch (e.key) {
 				case "ArrowLeft":
@@ -57,30 +57,30 @@ export function SaturationArea({
 					newSaturation = Math.min(100, saturation + step);
 					break;
 				case "ArrowUp":
-					newLightness = Math.min(100, lightness + step);
+					newValue = Math.min(100, value + step);
 					break;
 				case "ArrowDown":
-					newLightness = Math.max(0, lightness - step);
+					newValue = Math.max(0, value - step);
 					break;
 				default:
 					return;
 			}
 
 			e.preventDefault();
-			onChange(newSaturation, newLightness);
+			onChange(newSaturation, newValue);
 		},
-		[saturation, lightness, onChange]
+		[saturation, value, onChange]
 	);
 
 	// Calculate cursor position
 	const cursorX = saturation;
-	const cursorY = 100 - lightness;
+	const cursorY = 100 - value;
 
 	return (
 		<div
 			ref={containerRef}
 			role="application"
-			aria-label={`Color saturation and lightness picker. Saturation: ${saturation}%, Lightness: ${lightness}%`}
+			aria-label={`Color saturation and brightness picker. Saturation: ${saturation}%, Brightness: ${value}%`}
 			tabIndex={0}
 			onMouseDown={handleMouseDown}
 			onTouchStart={handleTouchStart}

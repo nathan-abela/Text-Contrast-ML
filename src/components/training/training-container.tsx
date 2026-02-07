@@ -175,6 +175,7 @@ export function TrainingContainer({
 						/>
 					</div>
 
+					{/* Current color indicator */}
 					<p className="hidden text-center text-xs text-muted-foreground sm:block">
 						Background: {currentColor}
 					</p>

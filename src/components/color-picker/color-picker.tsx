@@ -44,7 +44,11 @@ export function ColorPicker({ value, onChange, className }: ColorPickerProps) {
 	// Handle saturation area changes (uses HSV model)
 	const handleSaturationChange = useCallback(
 		(saturation: number, valueComponent: number) => {
-			const newHsv: HSVColor = { h: hsv.h, s: saturation, v: valueComponent };
+			const newHsv: HSVColor = {
+				h: hsv.h,
+				s: saturation,
+				v: valueComponent,
+			};
 			const newRgb = hsvToRgb(newHsv);
 			onChange(rgbToHex(newRgb));
 		},
@@ -87,7 +91,7 @@ export function ColorPicker({ value, onChange, className }: ColorPickerProps) {
 	);
 
 	return (
-		<div className={cn("flex flex-col gap-4 w-full max-w-xs", className)}>
+		<div className={cn("flex w-56 flex-col gap-4", className)}>
 			{/* Saturation/Value area (HSV model) */}
 			<SaturationArea
 				hue={hsv.h}

@@ -64,13 +64,4 @@ export interface HSLColor {
 	l: number;
 }
 
-/**
- * HSV color representation
- */
-export interface HSVColor {
-	h: number;
-	s: number;
-	v: number;
-}
-
 export type { NavItem } from "./nav";

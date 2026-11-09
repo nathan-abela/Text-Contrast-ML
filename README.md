@@ -23,7 +23,7 @@ Train a neural network to predict optimal text color for any background. Runs en
 Check out the live site at **[nathan-abela.github.io/Text-Contrast-ML](https://nathan-abela.github.io/Text-Contrast-ML)**
 
 <p align="center">
-    <img src="public/preview-prediction.png" width="700" alt="Text Contrast ML Preview"/>
+    <img src="docs/preview-prediction.png" width="700" alt="Text Contrast ML Preview"/>
 </p>
 
 ## Features

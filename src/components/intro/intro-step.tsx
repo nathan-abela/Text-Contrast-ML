@@ -29,7 +29,7 @@ function ContrastDemo({ good }: { good: boolean }) {
  */
 function TrainingPreview() {
 	return (
-		<div className="grid gap-4 sm:grid-cols-2">
+		<div className="grid grid-cols-2 gap-3 sm:gap-4">
 			<div className="flex h-20 items-center justify-center rounded-lg border border-transparent bg-[#e67e22] text-lg font-medium text-black sm:h-24 lg:h-32">
 				Black text
 			</div>
@@ -50,7 +50,7 @@ export function IntroStep({ step, className }: IntroStepProps) {
 			description:
 				"Text readability depends on the contrast between text and background colors. Good contrast makes content accessible to everyone.",
 			content: (
-				<div className="grid gap-4 sm:grid-cols-2">
+				<div className="grid grid-cols-2 gap-3 sm:gap-4">
 					<ContrastDemo good />
 					<ContrastDemo good={false} />
 				</div>

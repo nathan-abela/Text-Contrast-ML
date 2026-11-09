@@ -70,7 +70,7 @@ export function IntroContainer({
 			</div>
 
 			{/* Navigation */}
-			<div className="border-t bg-background/80 backdrop-blur-sm">
+			<div className="sticky bottom-0 z-10 border-t bg-background/80 backdrop-blur-sm">
 				<div className="container flex items-center justify-between gap-4 py-4">
 					{/* Step indicators */}
 					<div
@@ -85,7 +85,7 @@ export function IntroContainer({
 									role="tab"
 									aria-selected={i === currentStep}
 									aria-label={`Step ${i + 1} of ${INTRO_STEP_COUNT}`} // prettier-ignore
-									className={`h-2 w-10 rounded-full transition-colors ${
+									className={`h-2 w-6 rounded-full sm:w-10 transition-colors ${
 										i === currentStep
 											? "bg-foreground"
 											: i < currentStep

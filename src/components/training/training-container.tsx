@@ -162,7 +162,7 @@ export function TrainingContainer({
 					</p>
 
 					{/* Training cards */}
-					<div className="flex flex-col gap-4 sm:flex-row">
+					<div className="flex gap-3 sm:gap-4">
 						<TrainingCard
 							backgroundColor={currentColor}
 							textColor="black"
@@ -219,7 +219,7 @@ export function TrainingContainer({
 			)}
 
 			{/* Footer with actions */}
-			<div className="border-t bg-background/80 backdrop-blur-sm">
+			<div className="sticky bottom-0 z-10 border-t bg-background/80 backdrop-blur-sm">
 				<div className="container flex items-center justify-between py-2 sm:py-4">
 					<div className="flex items-center gap-2">
 						<Button variant="ghost" onClick={onBack}>

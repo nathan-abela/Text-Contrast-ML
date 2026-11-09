@@ -47,3 +47,16 @@ out/
 
 # typescript
 *.tsbuildinfo
+
+# Backups and Temp Files
+**/*.backup.*
+**/*.back.*
+*.thumb
+*.sketch
+
+# Design Files
+*.ai
+*.ait
+*.eps
+*.psd
+*.psb
